@@ -45,13 +45,12 @@ pipeline {
                 logFileName: 'results/log.html',
                 reportFileName: 'results/report.html'
             )
-            // Send email notifications
-            emailext(
-                subject: 'Robot Framework Test Execution Report',
-                body: 'Please find the test execution report attached.',
-                attachmentsPattern: 'results/log.html,results/report.html',
-                to: 'mshuvam@telaverge.com'
-            )
+            
+            // Send email notifications using Jenkins' built-in email notification system
+            emailext subject: 'Robot Framework Test Execution Report',
+                      body: 'Please find the test execution report attached.',
+                      attachmentsPattern: 'results/log.html,results/report.html',
+                      to: 'mshuvam@telaverge.com'
         }
     }
 }
