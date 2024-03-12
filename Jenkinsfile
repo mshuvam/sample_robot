@@ -4,7 +4,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/mshuvam/sample_robot.git'
+                script {
+                    // Print current directory and list contents
+                    sh 'pwd'
+                    sh 'ls -la'
+                    
+                    // Checkout the repository
+                    git 'https://github.com/mshuvam/sample_robot.git'
+                }
             }
         }
         
@@ -12,7 +19,19 @@ pipeline {
             steps {
                 script {
                     // Assuming tests are in a subdirectory called 'tests'
-                    sh 'cd tests && robot -d ../results login_tests.robot'
+                    // Print current directory and list contents
+                    sh 'pwd'
+                    sh 'ls -la'
+                    
+                    // Change directory to 'tests'
+                    dir('tests') {
+                        // Print current directory and list contents
+                        sh 'pwd'
+                        sh 'ls -la'
+                        
+                        // Execute Robot Framework tests
+                        sh 'robot -d ../results login_tests.robot'
+                    }
                 }
             }
         }
@@ -20,7 +39,7 @@ pipeline {
     
     post {
         always {
-            // Publish Robot Framework test results
+            // Integrate with the Robot Framework plugin for detailed reports
             robot(
                 outputPath: 'results/output.xml',
                 logFileName: 'results/log.html',
