@@ -20,9 +20,11 @@ pipeline {
     
     post {
         always {
-            // Integrate with the Robot Framework plugin for detailed reports
-            robot publisherName: 'results/output.xml'
-            // Send email notifications
+            robot(
+                outputFilePath: 'results/output.xml',
+                logFilePath: 'results/log.html',
+                reportFilePath: 'results/report.html'
+            )
             emailext(
                 subject: 'Robot Framework Test Execution Report',
                 body: 'Please find the test execution report attached.',
