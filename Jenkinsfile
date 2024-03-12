@@ -18,20 +18,13 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Assuming tests are in a subdirectory called 'tests'
+                    // Assuming tests are in a directory called 'tests' outside 'myproject'
                     // Print current directory and list contents
                     sh 'pwd'
                     sh 'ls -la'
                     
-                    // Change directory to 'myproject/tests'
-                    dir('myproject/tests') {
-                        // Print current directory and list contents
-                        sh 'pwd'
-                        sh 'ls -la'
-                        
-                        // Execute Robot Framework tests
-                        sh 'robot -d ../../results login_tests.robot'
-                    }
+                    // Execute Robot Framework tests
+                    sh 'robot -d ../results tests/login_tests.robot'
                 }
             }
         }
@@ -39,14 +32,15 @@ pipeline {
     
     post {
         always {
-            // Send email notifications
-            emailext(
-                subject: 'Jenkins build for sample robot code',
-                body: '',
-                to: 'mshuvam@telaverge.com'
-            )
+            // Archive the Robot Framework test report
+            archiveArtifacts artifacts: '../results/*.html', onlyIfSuccessful: true
+            
+            // Send email notifications with the test report as an attachment
+            emailext attachmentsPattern: '../results/*.html',
+                      subject: 'Jenkins build for sample robot code',
+                      body: '',
+                      to: 'mshuvam@telaverge.com'
         }
     }
 }
-
 
