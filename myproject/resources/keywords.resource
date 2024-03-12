@@ -4,7 +4,11 @@ Library    SeleniumLibrary
 *** Keywords ***
 Open Browser To Login Page
     [Arguments]    ${url}
-    Open Browser    ${url}    Chrome
+    ${chrome_options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+    Call Method    ${chrome_options}    add_argument    --headless
+    Call Method    ${chrome_options}    add_argument    --no-sandbox
+    Call Method    ${chrome_options}    add_argument    --disable-dev-shm-usage
+    Open Browser    ${url}    Chrome    options=${chrome_options}
 
 Input Username
     [Arguments]    ${username}
