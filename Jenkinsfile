@@ -23,14 +23,14 @@ pipeline {
                     sh 'pwd'
                     sh 'ls -la'
                     
-                    // Change directory to 'tests'
-                    dir('tests') {
+                    // Change directory to 'myproject/tests'
+                    dir('myproject/tests') {
                         // Print current directory and list contents
                         sh 'pwd'
                         sh 'ls -la'
                         
                         // Execute Robot Framework tests
-                        sh 'robot -d ../results login_tests.robot'
+                        sh 'robot -d ../../results login_tests.robot'
                     }
                 }
             }
