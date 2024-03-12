@@ -29,20 +29,8 @@ pipeline {
                         sh 'pwd'
                         sh 'ls -la'
                         
-                        // Execute Robot Framework tests and generate report
+                        // Execute Robot Framework tests
                         sh 'robot -d ../../results login_tests.robot'
-                        
-                        // Store the path of the generated report
-                        def reportPath = '../../results/report.html'
-                        
-                        // Archive the report
-                        archiveArtifacts artifacts: reportPath, onlyIfSuccessful: false
-                        
-                        // Store the path of the build log file
-                        def logFilePath = env.BUILD_ID + '.log'
-                        
-                        // Archive the build log
-                        archiveArtifacts artifacts: logFilePath, onlyIfSuccessful: false
                     }
                 }
             }
@@ -51,12 +39,14 @@ pipeline {
     
     post {
         always {
-            // Send email notifications with test report and build log as attachments
-            emailext attachmentsPattern: '../../results/*, ${env.BUILD_ID}.log',
-                      subject: 'Jenkins build for sample robot code',
-                      body: '',
-                      to: 'mshuvam@telaverge.com'
+            // Send email notifications
+            emailext(
+                subject: 'Jenkins build for sample robot code',
+                body: '',
+                to: 'mshuvam@telaverge.com'
+            )
         }
     }
 }
+
 
