@@ -41,9 +41,9 @@ pipeline {
         always {
             // Integrate with the Robot Framework plugin for detailed reports
             robot(
-                outputPath: 'myproject/results/output.xml',
-                logFileName: 'myproject/results/log.html',
-                reportFileName: 'myproject/results/report.html'
+                outputPath: 'myproject/results',
+                logFileName: 'results/log.html',
+                reportFileName: 'results/report.html'
             )
             // Send email notifications
             emailext(
