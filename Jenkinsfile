@@ -39,11 +39,11 @@ pipeline {
     
     post {
         always {
-            // Integrate with the Robot Framework plugin for detailed reports
-            robot(
-                outputPath: 'myproject/results',
-                logFileName: 'results/log.html',
-                reportFileName: 'results/report.html'
+            // Send email notifications
+            emailext(
+                subject: 'Jenkins build for sample robot code',
+                body: '',
+                to: 'mshuvam@telaverge.com'
             )
         }
     }
