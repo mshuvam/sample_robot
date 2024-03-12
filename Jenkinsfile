@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Assuming tests are in a subdirectory called 'tests'
-                    sh 'cd tests && robot -d results login_tests.robot'
+                    sh 'cd tests && robot -d ../results login_tests.robot'
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
     
     post {
         always {
-            // Integrate with the Robot Framework plugin for detailed reports
+            // Publish Robot Framework test results
             robot(
                 outputPath: 'results/output.xml',
                 logFileName: 'results/log.html',
